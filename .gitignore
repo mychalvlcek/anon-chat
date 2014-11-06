@@ -1,0 +1,15 @@
+log/*
+temp/*
+vendor/*
+!.gitignore
+
+#
+app/bootstrap.php
+
+# configs
+app/config/config.local.neon
+www/_crawler/config.php
+
+# ------- Other ---------
+
+*.meta
