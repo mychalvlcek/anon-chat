@@ -20,7 +20,7 @@ class HomepagePresenter extends BasePresenter
 	public function handlePoll()
 	{
 		if ($this->isAjax()) {
-			if (rand(1, 5) < 3) {
+			if (rand(1, 5) < 2) {
 				$mine = 'mine';
 			} else {
 				$mine = '';
@@ -38,6 +38,13 @@ class HomepagePresenter extends BasePresenter
 	{
 		if ($this->isAjax()) {
 			$this->sendResponse(new Nette\Application\Responses\JsonResponse($this->context->httpRequest->getPost()));
+		}
+	}
+
+	public function handleRoom($id = null)
+	{
+		if ($this->isAjax()) {
+			$this->sendResponse(new Nette\Application\Responses\JsonResponse(array($id)));
 		}
 	}
 

@@ -67,5 +67,23 @@ $('#new-room').on('click', function() {
 	});
 });
 
+$('.sidebar').on('click', '.room', function(e) {
+	e.preventDefault();
+
+	$.ajax({
+		type: 'GET',
+		url: $(e.target).attr('href'),
+		async: true,
+		cache: false,
+		// data: {'id': $('#new-room-name').val()},
+		success: function(json) {
+			console.log(json);
+		},
+		error: function(XMLHttpRequest,textStatus,errorThrown) {
+			// alert("error: "+textStatus + " "+ errorThrown );
+		}
+	});
+});
+
 </script>
 {/block}
