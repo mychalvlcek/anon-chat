@@ -2,6 +2,30 @@ $(function() {
 	waitForMsg();
 });
 
+/* new room */
+$('#new-room').on('click', function(e) {
+	$.ajax({
+		type: 'POST',
+		url: $(e.target).attr('data-url'),
+		async: true,
+		cache: false,
+		data: {'name': $('#new-room-name').val()},
+		success: function(json) {
+			var $newItem = $($('.room.item-template').clone()).removeClass('item-template');
+			$newItem.find('a').html(json['name']); // name
+			$newItem.find('a').attr('href', json['url']); // url
+			$newItem.find('a').attr('data-url', json['data-url']); // url
+			$('#roomList').after($newItem);
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			alert("error: " + textStatus + " " + errorThrown );
+		}
+	});
+});
+
+/**
+ * Sync for new data
+ */
 function waitForMsg() {
 	$.ajax({
 		type: 'GET',
@@ -10,8 +34,6 @@ function waitForMsg() {
 		cache: false,
 	 
 		success: function(json) {
-			console.log(json);
-
 			if (json['mine']) {
 				var $newItem = $($('.media.item-template').clone()).removeClass('item-template');
 				$newItem.addClass(json['mine']);
@@ -28,40 +50,9 @@ function waitForMsg() {
 	});
 }
 
-/* new room */
-$('#new-room').on('click', function(e) {
-	$.ajax({
-		type: 'POST',
-		url: $(e.target).attr('data-url'),
-		async: true,
-		cache: false,
-		data: {'name': $('#new-room-name').val()},
-		success: function(json) {
-			var $newItem = $($('.room.item-template').clone()).removeClass('item-template');
-			$newItem.find('a').html(json['name']); // name
-			$newItem.find('a').attr('href', json['url']); // url
-			$('#roomList').after($newItem);
-		},
-		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("error: "+textStatus + " "+ errorThrown );
-		}
-	});
-});
+/**
+ * add new message
+ */
+function addMessage(data) {
 
-$('.sidebar').on('click', '.room', function(e) {
-	e.preventDefault();
-
-	$.ajax({
-		type: 'GET',
-		url: $(e.target).attr('href'),
-		async: true,
-		cache: false,
-		// data: {'id': $('#new-room-name').val()},
-		success: function(json) {
-			console.log(json);
-		},
-		error: function(XMLHttpRequest,textStatus,errorThrown) {
-			// alert("error: "+textStatus + " "+ errorThrown );
-		}
-	});
-});
+}

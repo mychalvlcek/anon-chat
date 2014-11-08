@@ -22,8 +22,7 @@
         <ul class="sidebar">
             <li class="sidebar-main"><a href="#">Anonymous Chat<span class="menu-icon fa fa-comments"></span></a></li>
             <li id="roomList" class="sidebar-title separator"><span>Chat Rooms</span></li>
-            <li class="sidebar-list room item-template"><a href="{link room!, id => 1}"></a></li>
-            {* <li n:foreach="$rooms as $room" class="sidebar-list room"><a href="{link room!, id => $room->id}">{$room->title}</a></li> *}
+            {* <li n:foreach="$rooms as $room" class="sidebar-list room"><a href="{link room, id => $room->id}">{$room->title}</a></li> *}
         </ul>
         <div class="sidebar-footer">
             <div class="heading">New Room</div>
@@ -33,7 +32,7 @@
     </div>
     <div id="content-wrapper">
         <div class="page-content">
-            <div class="row alerts-container" data-ng-controller="AlertsCtrl" data-ng-show="alerts.length">
+            <div class="row alerts-container">
                 <div class="col-xs-12">
                     <div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
                 </div>
@@ -56,6 +55,19 @@
         </div>
     </div>
 </div>
+
+<!-- templates -->
+<div class="media item-template">
+    <a class="media-left" href="#"><img src="http://lorempixel.com/40/40/people/" alt="avatar"></a>
+    <div class="media-body">
+        <p>Media heading</p>
+        <div class="meta">
+            <span class="author">John</span> <time class="text-muted timeago" datetime="2014-11-01 12:35:12">2.11. 2015</time>
+        </div>
+    </div>
+</div>
+
+<li class="sidebar-list room item-template active"><a href="{link room!, id => 1}"></a></li>
 
 {block scripts}
 <script>
