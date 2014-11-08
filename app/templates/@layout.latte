@@ -20,18 +20,15 @@
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
         <ul class="sidebar">
-            <li class="sidebar-main"><a href="#">Anonymous Chat<span class="menu-icon glyphicon glyphicon-transfer"></span></a></li>
+            <li class="sidebar-main"><a href="#">Anonymous Chat<span class="menu-icon fa fa-comments"></span></a></li>
             <li id="roomList" class="sidebar-title separator"><span>Chat Rooms</span></li>
             <li class="sidebar-list room item-template"><a href="{link room!, id => 1}"></a></li>
-            <li class="sidebar-list"><a href="#">Dashboard</a></li>
-            <li class="sidebar-list"><a href="#/tables">Tables <span class="menu-icon fa fa-table"></span></a></li>
-            <li class="sidebar-list"><a href="#">Servers <span class="menu-icon fa fa-tasks"></span></a></li>
-            <li class="sidebar-list"><a href="#">Settings <span class="menu-icon fa fa-cogs"></span></a></li>
+            {* <li n:foreach="$rooms as $room" class="sidebar-list room"><a href="{link room!, id => $room->id}">{$room->title}</a></li> *}
         </ul>
         <div class="sidebar-footer">
             <div class="heading">New Room</div>
             <div class="col-xs-9"><input id="new-room-name" type="text" class="form-control"/></div>
-            <div class="col-xs-3"><button id="new-room" type="button" class="btn btn-primary">OK</button></div>
+            <div class="col-xs-3"><button id="new-room" data-url="{link createRoom!}" type="button" class="btn btn-primary">OK</button></div>
         </div>
     </div>
     <div id="content-wrapper">
@@ -61,6 +58,9 @@
 </div>
 
 {block scripts}
+<script>
+var pollUrl = {link poll!};
+</script>
 <script src="{$basePath}/js/jquery.js"></script>
 <script src="{$basePath}/js/bootstrap.min.js"></script>
 <script src="{$basePath}/js/netteForms.js"></script>
