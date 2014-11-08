@@ -1,37 +1,71 @@
 {block title}Home{/block}
 
 {block content}
-
-<div class="media">
-  <a class="media-left" href="#">
-    <img src="http://lorempixel.com/40/40/people/" alt="avatar">
-  </a>
-  <div class="media-body">
-    <h4 class="media-heading">Media heading</h4>
-    lorem ipsum
-  </div>
-</div>
-<div class="media">
-  <a class="media-left" href="#">
-    <img src="http://lorempixel.com/40/40/people/" alt="avatar">
-  </a>
-  <div class="media-body">
-    <h4 class="media-heading">Media heading</h4>
-    lorem ipsum
-  </div>
-</div>
-<div class="media">
-  <a class="media-left" href="#">
-    <img src="http://lorempixel.com/40/40/people/" alt="avatar">
-  </a>
-  <div class="media-body">
-    <h4 class="media-heading">Media heading</h4>
-    lorem ipsum
-  </div>
+<div id="chat">
+	<div class="media item-template">
+		<a class="media-left" href="#"><img src="http://lorempixel.com/40/40/people/" alt="avatar"></a>
+		<div class="media-body">
+			<p>Media heading</p>
+			<div class="meta">
+				<span class="author">John</span> <time class="text-muted timeago" datetime="2014-11-01 12:35:12">2.11. 2015</time>
+			</div>
+		</div>
+	</div>
 </div>
 
 {/block}
 
 {block scripts}
 {include parent}
+<script>
+function waitForMsg() {
+	$.ajax({
+		type: 'GET',
+		url: {link poll!},
+		async: true,
+		cache: false,
+	 
+		success: function(json) {
+			console.log(json);
+
+			if (json['mine']) {
+				var $newItem = $($('.media.item-template').clone()).removeClass('item-template');
+				$newItem.addClass(json['mine']);
+				$('#chat').append($newItem).fadeIn('slow');
+
+				$('html, body').animate({ scrollTop: $($newItem).offset().top + 20 }, 100);
+			}
+			setTimeout("waitForMsg()",2000);
+		},
+		error: function(XMLHttpRequest,textStatus,errorThrown) {
+			// alert("error: "+textStatus + " "+ errorThrown );
+			setTimeout("waitForMsg()",2000);
+		}
+	});
+}
+ 
+$(document).ready(function() {
+	waitForMsg();
+});
+
+$('#new-room').on('click', function() {
+	$.ajax({
+		type: 'POST',
+		url: {link createRoom!},
+		async: true,
+		cache: false,
+		data: {'name': $('#new-room-name').val()},
+		success: function(json) {
+			console.log(json);
+			var $newItem = $($('.room.item-template').clone()).removeClass('item-template');
+			$newItem.find('a').html(json['name']);
+			$('#roomList').after($newItem);
+		},
+		error: function(XMLHttpRequest,textStatus,errorThrown) {
+			// alert("error: "+textStatus + " "+ errorThrown );
+		}
+	});
+});
+
+</script>
 {/block}

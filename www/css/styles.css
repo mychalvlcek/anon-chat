@@ -453,6 +453,12 @@ ul.sidebar .sidebar-list .menu-icon {
   font-size: 28px;
   display: block;
 }
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+#sidebar-wrapper {
+  z-index: 200;
+}
 .sidebar-footer {
   height: 80px;
 }
@@ -473,10 +479,39 @@ ul.sidebar .sidebar-list .menu-icon {
   background: white;
   box-shadow: 3px 3px 5px 6px #ccc;
   height: 80px;
-  position: absolute;
+  position: fixed;
+  z-index: 100;
   bottom: 0;
   width: 100%;
 }
 #input {
   width: 600px;
+}
+.item-template {
+  display: none;
+}
+#chat {
+  margin-bottom: 80px;
+}
+.media {
+  background: white;
+  border-bottom: 1px solid #d8d8d8;
+  padding: 10px 30px;
+  font-weight: 300;
+  margin-top: 5px;
+}
+.media p {
+  font-weight: 400;
+  margin-bottom: 5px;
+}
+.media .meta {
+  font-size: 11px;
+  font-weight: 300;
+}
+.media .timeago {
+  padding-left: 1em;
+  font-style: italic;
+}
+.media.mine {
+  background: #f6faff;
 }
