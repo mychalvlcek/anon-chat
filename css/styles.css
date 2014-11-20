@@ -317,6 +317,11 @@ ul.sidebar .sidebar-list a:hover {
   border-left: 3px solid #e99d1a;
   text-indent: 22px;
 }
+ul.sidebar .sidebar-list a.active {
+  color: #fff;
+  border-left: 3px solid #e99d1a;
+  text-indent: 22px;
+}
 ul.sidebar .sidebar-list a:hover .menu-icon {
   text-indent: 25px;
 }
