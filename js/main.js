@@ -28,8 +28,8 @@ $('#new-room').on('click', function(e) {
 	$.ajax({
 		type: 'POST',
 		url: 'http://via.kopriva.net/chat/room',
-		// dataType: 'json',
-		dataType: "application/x-www-form-urlencoded; charset=utf-8",
+		dataType: 'json',
+		// dataType: "application/x-www-form-urlencoded; charset=utf-8",
 		headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
 		data: JSON.stringify({name: $('#new-room-name').val()}),
 		success: function(json) {
@@ -39,7 +39,7 @@ $('#new-room').on('click', function(e) {
 			$('#roomList').after($newItem);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("error: " + textStatus + " " + errorThrown );
+			console.log("error: " + textStatus + " " + errorThrown );
 		}
 	});
 });
@@ -55,7 +55,7 @@ function waitForMsg() {
 		headers: {'Accept': 'application/json'},
 		success: function(json) {
 			if (json == true) {
-				// update rooms
+				getRooms();
 				getMessagesForRoom(window.location.hash.substring(1), localStorage.getItem('message-count'));
 
 			}
@@ -80,6 +80,7 @@ function getRooms() {
 		async: true,
 		headers: {'Accept': 'application/json'},
 		success: function(json) {
+			$('#roomList').nextAll('li').remove();
 			for (row in json) {
 				var $newItem = $($('.room.item-template').clone()).removeClass('item-template');
 				$newItem.find('a').html(json[row]['name']); // name
@@ -89,7 +90,7 @@ function getRooms() {
 			$('.room a[href=' + window.location.hash + ']').addClass('active');
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("error: " + textStatus + " " + errorThrown );
+			console.log("error: " + textStatus + " " + errorThrown );
 		}
 	});
 }
@@ -127,7 +128,7 @@ function getMessagesForRoom(roomId, offset) {
 			}
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("error: " + textStatus + " " + errorThrown );
+			console.log("error: " + textStatus + " " + errorThrown );
 		}
 	});
 }
@@ -144,7 +145,7 @@ function getHash() {
 			localStorage.setItem('hash', json['user_login']);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("error: " + textStatus + " " + errorThrown );
+			console.log("error: " + textStatus + " " + errorThrown );
 		}
 	});
 }
@@ -162,7 +163,7 @@ $('#message-send').on('click', function(e) {
 			$('#input').val('');
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("error: " + textStatus + " " + errorThrown );
+			console.log("error: " + textStatus + " " + errorThrown );
 		}
 	});
 });
