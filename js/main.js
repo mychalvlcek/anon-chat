@@ -28,9 +28,9 @@ $('#new-room').on('click', function(e) {
 	$.ajax({
 		type: 'POST',
 		url: 'http://via.kopriva.net/chat/room',
-		async: true,
-		cache: false,
-		headers: {'Accept': 'application/json', 'Content-type': 'application/json'},
+		// dataType: 'json',
+		dataType: "application/x-www-form-urlencoded; charset=utf-8",
+		headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
 		data: JSON.stringify({name: $('#new-room-name').val()}),
 		success: function(json) {
 			var $newItem = $($('.room.item-template').clone()).removeClass('item-template');
@@ -52,8 +52,7 @@ function waitForMsg() {
 		type: 'GET',
 		url: 'http://via.kopriva.net/chat/update',
 		async: true,
-		cache: false,
-	 	headers: {'Accept': 'application/json', 'Content-type': 'application/json'},
+		headers: {'Accept': 'application/json'},
 		success: function(json) {
 			if (json == true) {
 				// update rooms
@@ -63,7 +62,7 @@ function waitForMsg() {
 			waitForMsg();
 		},
 		error: function(XMLHttpRequest,textStatus,errorThrown) {
-			// alert("error: "+textStatus + " "+ errorThrown );
+			console.log(XMLHttpRequest, textStatus, errorThrown );
 			waitForMsg();
 		}
 	});
@@ -79,8 +78,7 @@ function getRooms() {
 		type: 'GET',
 		url: 'http://via.kopriva.net/chat/room',
 		async: true,
-		cache: false,
-		headers: {'Accept': 'application/json', 'Content-type': 'application/json'},
+		headers: {'Accept': 'application/json'},
 		success: function(json) {
 			for (row in json) {
 				var $newItem = $($('.room.item-template').clone()).removeClass('item-template');
@@ -103,12 +101,13 @@ function getMessagesForRoom(roomId, offset) {
 		type: 'GET',
 		url: 'http://via.kopriva.net/chat/message/' + roomId,
 		async: true,
-		cache: false,
-		headers: {'Accept': 'application/json', 'Content-type': 'application/json', 'X-Order': 'ASC', 'X-Limit': 10, 'X-Offset': offset},
+		headers: {'Accept': 'application/json', 'Content-Type': 'application/json', 'X-Order': 'ASC', 'X-Limit': 10, 'X-Offset': offset},
 		success: function(json) {
-			console.log(json);
-			localStorage.setItem('message-count', json.length);
-			if (json.length > 0 && offset == 0) {
+			localStorage.setItem('message-count', (+offset + +json.length));
+			if (json.length > 0) {
+				if (offset == 0) {
+					$('#chat').html('');
+				}
 				for (row in json) {
 					var $newItem = $($('.media.item-template').clone()).removeClass('item-template');
 					$newItem.find('p').html(json[row]['message']);
@@ -123,7 +122,7 @@ function getMessagesForRoom(roomId, offset) {
 					$('html, body').animate({ scrollTop: $($newItem).offset().top + 20 }, 100);
 				}
 				$(".timeago").timeago();
-			} else {
+			} else if(offset == 0) {
 				$('#chat').append($('<p class="lead text-muted text-center">No results.</p>')).fadeIn('slow');
 			}
 		},
@@ -140,8 +139,7 @@ function getHash() {
 		type: 'GET',
 		url: 'http://via.kopriva.net/chat/user',
 		async: true,
-		cache: false,
-		headers: {'Accept': 'application/json', 'Content-type': 'application/json'},
+		headers: {'Accept': 'application/json'},
 		success: function(json) {
 			localStorage.setItem('hash', json['user_login']);
 		},
